@@ -11,7 +11,8 @@ app.use(Express.json());
 //const middleware = require("./middleware/validate-jwt");
 app.use(require("./middleware/headers"));
 //app.use(middleware.CORS);
-//app.use("/user", controllers.usercontroller);
+
+
 
 
 dbConnection.authenticate()
