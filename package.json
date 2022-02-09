@@ -1,5 +1,5 @@
 {
-  "name": "EFAServer",
+  "name": "efaserver",
   "version": "1.0.0",
   "description": "efa-server",
   "main": "app.js",
