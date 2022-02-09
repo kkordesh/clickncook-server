@@ -16,9 +16,9 @@ const User = db.define("user", {
         unique: true
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(),
         allowNull: false
     }
 })
 
-module.exports = User;
+module.exports = User
