@@ -1,4 +1,4 @@
-//code for index file
-const RecipeModel = require('./recipe')
+const RecipeModel = require("./recipe")
+const UserModel = require("./user")
 
-module.exports = {RecipeModel};
+module.exports = { RecipeModel, UserModel }

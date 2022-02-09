@@ -5,12 +5,15 @@ const app = Express();
 const dbConnection = require("./db");
 const controllers = require("./controllers");
 
-app.use(Express.json());
 
+app.use(Express.json());
+app.use("/user", controllers.usercontroller);
 //const middleware = require("./middleware/validate-jwt");
 app.use(require("./middleware/headers"));
 //app.use(middleware.CORS);
 app.use("/recipe", controllers.recipecontroller)
+
+
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
