@@ -10,13 +10,13 @@ app.use(Express.json());
 //const middleware = require("./middleware/validate-jwt");
 app.use(require("./middleware/headers"));
 //app.use(middleware.CORS);
-
+app.use("/recipe", controllers.recipecontroller)
 
 dbConnection.authenticate()
 .then(() => dbConnection.sync())
 .then(() => {
-    app.listen(4000, () => {
-        console.log(`[Server]: App is listening on 4000.`);
+    app.listen(process.env.PORT, () => {
+        console.log(`[Server]: App is listening on ${process.env.PORT}.`);
     });
 })
 .catch((err) => {
