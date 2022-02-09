@@ -1,11 +1,14 @@
 
-const router = require("express").Router() // way to merge lines 1 and 2! 
+const router = require("express").Router(); // way to merge lines 1 and 2! 
+let validateJWT = require("../middleware/validate-session")
 const { RecipeModel } = require("../model")
+
 
 
 // CREATE RECIPE 
 
-router.post("/", async (req, res) =>{
+router.post("/", validateJWT, async (req, res) =>{
+    const { id } = req.user;
 
     try {
         const createRecipe = await RecipeModel.create({
@@ -15,6 +18,7 @@ router.post("/", async (req, res) =>{
             servings: req.body.servings,
             category: req.body.category,
             image: req.body.image,
+            owner_id: id 
         })
 
         console.log(createRecipe)
@@ -34,20 +38,22 @@ router.post("/", async (req, res) =>{
 
 // UPDATE RECIPE: 
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", validateJWT, async (req, res) => {
+  const ownerid = req.user.id
     const {
         nameOfRecipe,
         directions,
         timeToCook,
         servings,
         category,
-        image
+        image,
+        
     } = req.body //faster way one lines 27-33. destructuring object. 
 
     try {
         await RecipeModel.update(
             { nameOfRecipe, directions, timeToCook, servings, category, image},
-            { where: { id: req.params.id }, returning: true } //looking to update where the id in our database matches the id in our endpoint // return the effect that rose
+            { where: { id: req.params.id, owner_id: ownerid}, returning: true } //looking to update where the id in our database matches the id in our endpoint // return the effect that rose
         )
         .then((result) => {
             res.status(200).json({
@@ -67,7 +73,7 @@ router.put("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => { // one / = just one route
     try {
-     const allRecipes = await RecipeModel.findAll() //searches for multiple instances of Pies..asynchronous method, so use await. 
+     const allRecipes = await RecipeModel.findAll()  //searches for multiple instances of Pies..asynchronous method, so use await. 
      console.log(allRecipes)
  
      res.status(200).json(allRecipes)
@@ -84,19 +90,19 @@ router.get("/", async (req, res) => { // one / = just one route
 
  // get recipes by user
 
-/* router.get("/user", validateJWT, async (req, res) => {
+ router.get("/user", validateJWT, async (req, res) => {
     let { id } = req.user;
     try {
         const userRecipes = await RecipeModel.findAll({
             where: {
-                owner: id
+                owner_id: id
             }
         });
         res.status(200).json(userJournals);
     } catch (err) {
         res.status(500).json({ error: err});
     }
-});   */
+});   
 
 // get recipes by category 
 
@@ -117,12 +123,14 @@ router.get("/:category", async (req, res) => {
 
 // DELETE RECIPE
 
-router.delete("/:id", async (req, res) =>{
+router.delete("/:id", validateJWT, async (req, res) =>{
+    const ownerid = req.user.id; 
+    
     try { 
       
 
       await RecipeModel.destroy({
-          where: {id: req.params.id}
+          where: {id: req.params.id, owner_id: ownerid}
       })
 
       res.status(200).json({

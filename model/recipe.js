@@ -27,6 +27,9 @@ const Recipe = db.define('recipe', {
     image: {
         type: DataTypes.STRING(1000),
         allowNull: true 
+    },
+    owner_id: {
+        type: DataTypes.INTEGER
     }
 })
 

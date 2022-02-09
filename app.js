@@ -8,10 +8,11 @@ const controllers = require("./controllers");
 
 app.use(Express.json());
 app.use("/user", controllers.usercontroller);
-//const middleware = require("./middleware/validate-jwt");
+
+const middleware = require("./middleware/validate-session");
 app.use(require("./middleware/headers"));
 //app.use(middleware.CORS);
-app.use("/recipe", controllers.recipecontroller)
+app.use("/recipe", middleware, controllers.recipecontroller)
 
 
 
