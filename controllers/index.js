@@ -1,4 +1,5 @@
+//code for index file
 module.exports = {
-    //recipecontroller: require("./recipecontroller"),
+    recipecontroller: require('./recipecontroller'),
     usercontroller: require("./usercontroller")
 }

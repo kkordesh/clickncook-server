@@ -41,7 +41,7 @@ router.post("/login", async (req, res) => {
     }
 })
 
-module.exports = router
+
 router.post("/register", async (req, res) => {
 
     const { firstName, lastName, email, password } = req.body
