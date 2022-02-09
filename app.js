@@ -7,7 +7,7 @@ const controllers = require("./controllers");
 
 
 app.use(Express.json());
-
+app.use("/user", controllers.usercontroller);
 //const middleware = require("./middleware/validate-jwt");
 app.use(require("./middleware/headers"));
 //app.use(middleware.CORS);
