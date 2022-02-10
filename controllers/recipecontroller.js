@@ -90,15 +90,15 @@ router.get("/", async (req, res) => { // one / = just one route
 
  // get recipes by user
 
- router.get("/user", validateJWT, async (req, res) => {
-    let { id } = req.user;
+ router.get("/:owner_id", validateJWT, async (req, res) => {
+    let {owner_id} = req.params;
     try {
         const userRecipes = await RecipeModel.findAll({
             where: {
-                owner_id: id
+                owner_id: owner_id
             }
         });
-        res.status(200).json(userJournals);
+        res.status(200).json(userRecipes);
     } catch (err) {
         res.status(500).json({ error: err});
     }
