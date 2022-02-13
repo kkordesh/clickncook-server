@@ -95,7 +95,8 @@ router.get("/", async (req, res) => { // one / = just one route
     try {
         const userRecipes = await RecipeModel.findAll({
             where: {
-                owner_id: owner_id
+                owner_id: owner_id == 0 ? req.user.id : owner_id
+                
             }
         });
         res.status(200).json(userRecipes);
@@ -106,7 +107,7 @@ router.get("/", async (req, res) => { // one / = just one route
 
 // get recipes by category 
 
-router.get("/:category", async (req, res) => {
+router.get("/category/:category", async (req, res) => {
     const {category} = req.params;
     try {
         const results = await RecipeModel.findAll({
